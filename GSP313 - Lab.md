@@ -35,45 +35,45 @@ EOF`
 
 >Definir no cloudshell: template, target pool, grupo de instancia, firewall rule para permitir tráfego na porta 80/tcp, health check, backend service, url map
 
->Criando Instance Template
+>Criando Instance Template: nome, arquivo com metadados, vpc, tipo da instancia, região
 
 `gcloud compute instance-templates create web-server-template --metadata-from-file startup-script=startup.sh --network nucleus-vpc --machine-type f1-micro --region us-east1`
 
->Criando Instance Group
+>Criando Instance Group: nome, instancia de referencia, tamanho, template de referencia, região
 
 `gcloud compute instance-groups managed create web-server-group --base-instance-name` **NOME DO SEU JUMPHOST**`--size 2 --template web-server-template --region us-east1`
 
 
->Criando Firewall rules
+>Criando Firewall rules: nome, liberar porta, vpc
 
 `gcloud compute firewall-rules create` **NOME DA SUA FIREWALL RULE** --allow tcp:80 --network nucleus-vpc`
 
->Criando Health Checks
+>Criando Health Checks: nome
 
 `gcloud compute http-health-checks create http-basic-check`
 
->Attachando instance group com porta 80
+>Attachando instance group com porta 80: grupo de instancias, porta, região
 
 `gcloud compute instance-groups managed set-named-ports web-server-group --named-ports http:80 --region us-east1`
 
->Criando backend e setando no instance group
+>Criando backend e setando no instance group: nome, ptorocolo, health check, grupo de instancia, região
 
 `gcloud compute backend-services create web-server-backend --protocol HTTP --http-health-checks http-basic-check --global`
 
 `gcloud compute backend-services add-backend web-server-backend --instance-group web-server-group --instance-group-region us-east1 --global`
 
->Criando URL map
+>Criando URL map: nome, backend de referencia
 
 `gcloud compute url-maps create web-server-map --default-service web-server-backend`
 
->Setando target do HTTP proxy para rotear requests para URL map
+>Setando target do HTTP proxy para rotear requests para URL map: nome, url map de referencia
 
 `gcloud compute target-http-proxies create http-lb-proxy --url-map web-server-map`
 
->Criando forwarding rule
+>Criando forwarding rule: nome, setando como global, http proxy de referencia, porta
 
 `gcloud compute forwarding-rules create http-content-rule --global --target-http-proxy http-lb-proxy --ports 80`
 
->Visualizando lista de forwarding rules
+>Visualizando lista de forwarding rules: nome das regras
 
 `gcloud compute forwarding-rules list`
