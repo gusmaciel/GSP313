@@ -46,7 +46,7 @@ EOF`
 
 >Criando Firewall rules: nome, liberar porta, vpc
 
-`gcloud compute firewall-rules create` **NOME DA SUA FIREWALL RULE** --allow tcp:80 --network nucleus-vpc`
+`gcloud compute firewall-rules create` **NOME DA SUA FIREWALL RULE** `--allow tcp:80 --network nucleus-vpc`
 
 >Criando Health Checks: nome
 
