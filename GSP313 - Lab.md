@@ -6,7 +6,12 @@
 ## CREATE A JUMPHOST INSTANCE ##
 >Definir no cloudshell: nome, vpc, zona, tipo, imagem e projeto:
 
-`gcloud compute instances create` **NOME DO SEU JUMPHOST** `--network nucleus-vpc --zone us-east1-b --machine-type f1-micro --image-family debian-11 --image-project debian-cloud`
+`gcloud compute instances create` **NOME DO SEU JUMPHOST** `\
+--network nucleus-vpc \
+--zone us-east1-b \
+--machine-type f1-micro \
+--image-family debian-11 \
+--image-project debian-cloud`
 
 ## CREATE A KUBERNETES SERVICE CLUSTER ##
 >Definir no cloudhsell: nome, numero de nós, vpc e região do cluster
